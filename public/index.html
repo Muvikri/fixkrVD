@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fixkrVD simple web</title>
+</head>
+
+<body>
+    <form id="dataInput">
+        <input type="text" placeholder="URL" id="inputURL">
+        <button type="submit">Download</button>
+    </form>
+    <p id="status"></p>
+</body>
+
+<script>
+    const form = document.getElementById("dataInput");
+    const status = document.getElementById("status");
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const url = document.getElementById('inputURL').value;
+        const data = {
+            url: url
+        }
+        if (!data.url) {
+            status.textContent = "gagal";
+            return;
+        }
+        const response = await fetch('/download', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        const result = await response.json();
+        console.log(result)
+        if (!result.success) return;
+        const downLink = result.url
+        window.open(downLink, '_self');
+    })
+</script>
+
+</html>
