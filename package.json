@@ -1,0 +1,20 @@
+{
+  "name": "fixkrvd",
+  "version": "0.0.1",
+  "description": "Video downloader doang",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Muvikri/fixkrVD.git"
+  },
+  "author": "FixkrStudios",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Muvikri/fixkrVD/issues"
+  },
+  "homepage": "https://github.com/Muvikri/fixkrVD#readme"
+}
