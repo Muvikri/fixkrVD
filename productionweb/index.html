@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FixkrVD — video downloader</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <span class="wordmark">FixkrVD</span>
+    <nav class="legal-nav">
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
+    </nav>
+  </header>
+
+  <main class="stage">
+
+    <div class="intro">
+      <h1 class="headline">Paste a link. Get the file.</h1>
+      <p class="subheadline">Works with most public video pages. No account, no queue.</p>
+    </div>
+
+    <div class="capabilities">
+      <span class="capabilities__label">What we can do</span>
+      <ul class="capabilities__list">
+        <li>YouTube</li>
+        <li>Instagram</li>
+        <li>TikTok</li>
+        <li>X (Twitter)</li>
+        <li>Facebook</li>
+      </ul>
+    </div>
+
+    <section class="panel" aria-live="polite">
+
+      <!-- Idle / processing / error share this form -->
+      <form id="dataInput" class="url-bar" novalidate>
+        <span class="url-bar__prefix" aria-hidden="true">›</span>
+        <input
+          type="text"
+          id="inputURL"
+          class="url-bar__input"
+          placeholder="https://example.com/watch?v=…"
+          autocomplete="off"
+          spellcheck="false"
+          inputmode="url"
+        >
+        <button type="submit" id="submitBtn" class="url-bar__submit">Get video</button>
+      </form>
+
+      <div class="status-row" id="statusRow">
+        <span class="status-dot" id="statusDot" aria-hidden="true"></span>
+        <span class="status-text" id="status">Ready when you are.</span>
+      </div>
+
+      <!-- Result state, hidden until "Get video" is submitted.
+           data-state: "loading" while metadata is being fetched,
+           "ready" once it renders. -->
+      <div class="result" id="result" hidden>
+        <div class="result__media">
+          <img class="result__thumb" id="resultThumb" alt="">
+        </div>
+        <div class="result__meta">
+          <p class="result__title" id="resultTitle"></p>
+          <p class="result__source" id="resultSource"></p>
+
+          <div class="tos-notice" id="tosNotice" hidden>
+            <label class="tos-notice__label">
+              <input type="checkbox" id="tosCheckbox" class="tos-notice__checkbox">
+              <span>I've read and agree to the <a href="terms.html" target="_blank" rel="noopener">Terms of Service</a>.</span>
+            </label>
+          </div>
+
+          <div class="download-controls">
+            <div class="control">
+              <label class="control__label" for="formatSelect">Format</label>
+              <div class="control__row">
+                <div class="control__select-wrap">
+                  <select id="formatSelect" class="control__select">
+                    <optgroup label="Video">
+                      <option value="mp4" selected>MP4</option>
+                      <option value="mov">MOV</option>
+                    </optgroup>
+                    <optgroup label="Audio">
+                      <option value="mp3">MP3</option>
+                    </optgroup>
+                  </select>
+                </div>
+                <span class="type-tag" id="formatTag" data-type="video">V</span>
+              </div>
+            </div>
+
+            <div class="control" id="qualityControl">
+              <label class="control__label" for="qualitySelect">Max quality</label>
+              <div class="control__row">
+                <div class="control__select-wrap">
+                  <select id="qualitySelect" class="control__select">
+                    <option value="best" selected>Best</option>
+                    <option value="1080p">&lt;1080p</option>
+                    <option value="720p">&lt;720p</option>
+                    <option value="480p">&lt;480p</option>
+                    <option value="360p">&lt;360p</option>
+                  </select>
+                </div>
+                <span class="type-tag" data-type="video">V</span>
+              </div>
+            </div>
+
+            <button type="button" class="result__download" id="downloadBtn">
+              Download
+            </button>
+          </div>
+
+          <button type="button" class="result__reset" id="resetBtn">Start over</button>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <span>© 2026 Fixkr</span>
+    <div class="legal-nav">
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
