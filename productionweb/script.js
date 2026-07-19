@@ -20,6 +20,15 @@ const downloadBtn       = document.getElementById('downloadBtn');
 const resetBtn          = document.getElementById('resetBtn');
 const tosNotice          = document.getElementById('tosNotice');
 const tosCheckbox        = document.getElementById('tosCheckbox');
+const turnstileOverlay   = document.getElementById('turnstileOverlay');
+const turnstileWidgetEl  = document.getElementById('turnstileWidget');
+const turnstileCancel    = document.getElementById('turnstileCancel');
+
+/** Site key for Cloudflare Turnstile, verified once per download click. */
+const TURNSTILE_SITE_KEY = '0x4AAAAAAD4iW6t8HoIWddjK';
+
+/** Turnstile widget id, set the first time it's rendered. */
+let turnstileWidgetId = null;
 
 /** Formats that are audio-only — everything else is treated as video. */
 const AUDIO_FORMATS = ['mp3'];
@@ -76,6 +85,46 @@ function updateFormatUI() {
 function updateDownloadLock() {
   downloadBtn.disabled = !tosAgreed;
 }
+
+/**
+ * Turnstile verification modal — rendered lazily, reset (not
+ * re-rendered) on every subsequent open so each attempt gets a
+ * fresh, single-use token.
+ */
+function openTurnstileModal() {
+  if (typeof turnstile === 'undefined') {
+    setState('error', "Verification didn't load. Refresh the page and try again.");
+    return;
+  }
+
+  turnstileOverlay.hidden = false;
+
+  if (turnstileWidgetId === null) {
+    turnstileWidgetId = turnstile.render(turnstileWidgetEl, {
+      sitekey: TURNSTILE_SITE_KEY,
+      callback: handleTurnstileSuccess,
+      'error-callback': handleTurnstileError
+    });
+  } else {
+    turnstile.reset(turnstileWidgetId);
+  }
+}
+
+function closeTurnstileModal() {
+  turnstileOverlay.hidden = true;
+}
+
+function handleTurnstileSuccess(token) {
+  closeTurnstileModal();
+  performDownload(token);
+}
+
+function handleTurnstileError() {
+  closeTurnstileModal();
+  setState('error', "Verification failed. Try the download again.");
+}
+
+turnstileCancel.addEventListener('click', closeTurnstileModal);
 
 /**
  * Reset the interface back to idle, ready for a new link.
@@ -213,13 +262,21 @@ tosCheckbox.addEventListener('change', () => {
 });
 
 /**
- * Download handler — step 2 of 2: resolve the real file link via
- * /download (video) or /downloadaudio (audio), then pull it as a
- * blob so the browser saves the file instead of opening it.
+ * Clicking Download first asks for human verification. The actual
+ * file request only fires once Turnstile hands back a token.
  */
-downloadBtn.addEventListener('click', async () => {
+downloadBtn.addEventListener('click', () => {
   if (!currentVideo || !currentVideo.sourceUrl || !tosAgreed) return;
+  openTurnstileModal();
+});
 
+/**
+ * Step 2 of 2, run after verification succeeds: resolve the real
+ * file link via /download (video) or /downloadaudio (audio), then
+ * pull it as a blob so the browser saves the file instead of
+ * opening it. Both endpoints receive the Turnstile token.
+ */
+async function performDownload(turnstileToken) {
   const fileFormat = formatSelect.value;
   const isAudio = AUDIO_FORMATS.includes(fileFormat);
 
@@ -235,13 +292,15 @@ downloadBtn.addEventListener('click', async () => {
       endpoint = '/downloadaudio';
       payload = {
         url: currentVideo.sourceUrl,
-        fileFormat
+        fileFormat,
+        turnstileToken
       };
     } else {
       endpoint = '/download';
       payload = {
         url: currentVideo.sourceUrl,
-        fileFormat
+        fileFormat,
+        turnstileToken
       };
       // "Best" means no ceiling — the server defaults to bestvideo
       // on its own, so we simply don't send a quality field at all.
@@ -286,6 +345,6 @@ downloadBtn.addEventListener('click', async () => {
     updateDownloadLock();
     downloadBtn.textContent = originalLabel;
   }
-});
+}
 
 resetBtn.addEventListener('click', resetToIdle);

@@ -130,6 +130,17 @@
     </div>
   </footer>
 
+  <!-- Human verification modal, shown right before a download request is sent -->
+  <div class="modal-overlay" id="turnstileOverlay" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="turnstileTitle">
+      <p class="modal__title" id="turnstileTitle">Quick check before downloading</p>
+      <p class="modal__subtitle">This only takes a second.</p>
+      <div class="modal__widget" id="turnstileWidget"></div>
+      <button type="button" class="modal__cancel" id="turnstileCancel">Cancel</button>
+    </div>
+  </div>
+
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <script src="script.js"></script>
 </body>
 </html>

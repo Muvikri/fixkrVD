@@ -57,6 +57,7 @@ const CFG = { serverUrl: process.env.SERVER_URL, port: process.env.PORT };
 // ======================
 
 async function turnstileVerify(token) {
+    console.log("verifikasi turnstile berjalan")
     if (!token) {
         console.log("token kosong!")
         return {
@@ -186,7 +187,7 @@ app.post("/download", async (req, res) => {
         return res.json({
             success: true,
             messages: "berhasil",
-            url: `${CFG.serverUrl}:${CFG.port}/downloads/${filename}`
+            url: `${CFG.serverUrl}/downloads/${filename}`
         });
     });
 
@@ -312,5 +313,5 @@ app.post("/customdownload", (req, res) => {
 }); */
 
 app.listen(CFG.port, () => {
-    console.log(`Server running in ${CFG.serverUrl}:${CFG.port}`);
+    console.log(`Server running in localhost:${CFG.port}`);
 });

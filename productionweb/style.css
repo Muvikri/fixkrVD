@@ -683,6 +683,76 @@ input {
 }
 
 /* -----------------------------------------------------------
+   Turnstile verification modal
+----------------------------------------------------------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(23, 24, 26, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-4);
+  z-index: 50;
+  animation: fade-in 0.15s var(--ease);
+}
+
+.modal-overlay[hidden] {
+  display: none;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.modal {
+  width: 100%;
+  max-width: 320px;
+  background: #fff;
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--radius);
+  padding: var(--sp-6) var(--sp-5) var(--sp-5);
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(23, 24, 26, 0.08);
+  animation: enter 0.25s var(--ease);
+}
+
+.modal__title {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 var(--sp-1);
+}
+
+.modal__subtitle {
+  font-size: 13px;
+  color: var(--ink-muted);
+  margin: 0 0 var(--sp-5);
+}
+
+.modal__widget {
+  display: flex;
+  justify-content: center;
+  min-height: 65px;
+  margin-bottom: var(--sp-4);
+}
+
+.modal__cancel {
+  border: none;
+  background: none;
+  color: var(--ink-muted);
+  font-size: 13px;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--hairline-strong);
+}
+
+.modal__cancel:hover {
+  color: var(--ink);
+}
+
+/* -----------------------------------------------------------
    Legal pages (Terms / Privacy)
 ----------------------------------------------------------- */
 .legal-main {
