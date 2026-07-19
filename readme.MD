@@ -1,31 +1,58 @@
 # FixkrVD
+
 *Fixkr Video Downloader*
-> A simple server backend endpoint that uses yt-dlp for downloading videos from yout---, tik---, inst-----, etc.
 
-[!] **_half of this code's comment/responses/logs are written in bahasa indonesia, you could translate it to english if ever you need too! (this code is so simple, i don't think you will ever need to translate it)_**
+> A simple backend server that provides endpoints for downloading videos using [yt-dlp](https://github.com/yt-dlp/yt-dlp) from various platforms.
 
-## Extra Requirements
-- python 11
-- latest yt-dlp
-> you need the latest yt-dlp for the backend to work
+> [!IMPORTANT]
+> Most comments, responses, and logs are written in Indonesian. Feel free to translate them if needed.
 
-to install:
+## Requirements
+
+* Python 3.11
+* [yt-dlp](https://github.com/yt-dlp/yt-dlp) — latest version recommended
+
+> [!WARNING]
+> Make sure you are using the latest version of `yt-dlp`. The backend may not work correctly with an outdated version.
+
+### Install yt-dlp
+
 ```bash
-python3.11 -m pip install yt-dlp
+python3.11 -m pip install -U yt-dlp
 ```
 
-check version:
+### Check the yt-dlp version
+
 ```bash
 yt-dlp --version
 ```
 
-### Make sure you use the python 11's yt-dlp
-to check:
+## Verify the yt-dlp Installation
+
+Make sure that `yt-dlp` is using the Python 3.11 environment.
+
+To check the location of the executable:
+
 ```bash
 which yt-dlp
 ```
 
-make sure the output is:
+The output should look similar to:
+
 ```console
 /home/<user>/.local/bin/yt-dlp
+```
+
+## How to Run
+
+Clone the repository and install the required dependencies:
+
+```bash
+git clone https://github.com/Muvikri/fixkrVD.git
+cd fixkrVD
+
+npm install
+python3.11 -m pip install -U yt-dlp
+
+npm start
 ```
