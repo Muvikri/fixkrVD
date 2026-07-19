@@ -251,7 +251,7 @@ app.post("/downloadaudio", async (req, res) => {
         return res.json({
             success: true,
             messages: "berhasil",
-            url: `${CFG.serverUrl}:${CFG.port}/downloads/${filename}`
+            url: `${CFG.serverUrl}/downloads/${filename}`
         });
     });
 
